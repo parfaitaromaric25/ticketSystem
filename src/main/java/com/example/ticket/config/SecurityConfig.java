@@ -21,24 +21,34 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 	
 	@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/users/**").authenticated()
-                .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
-                .anyRequest().authenticated()
-            )
-            .httpBasic(basic -> {})
-            .sessionManagement(session -> 
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .headers(headers -> headers.frameOptions(frame -> frame.disable()));
-        
-        return http.build();
-    }
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	    http
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(auth -> auth
+	            // H2 Console
+	            .requestMatchers("/h2-console/**").permitAll()
+	            // Swagger/OpenAPI
+	            .requestMatchers(
+	                "/v3/api-docs/**",
+	                "/swagger-ui/**",
+	                "/swagger-ui.html",
+	                "/swagger-resources/**",
+	                "/webjars/**"
+	            ).permitAll()
+	            // User endpoints
+	            .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+	            .requestMatchers(HttpMethod.GET, "/api/users/**").authenticated()
+	            // Tout le reste nécessite une authentification
+	            .anyRequest().permitAll()
+	        )
+	        .httpBasic(basic -> {})
+	        .sessionManagement(session -> 
+	            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+	        )
+	        .headers(headers -> headers.frameOptions(frame -> frame.disable()));
+	    
+	    return http.build();
+	}
 	
 	 @Bean
 	    public UserDetailsService userDetailsService() {

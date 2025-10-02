@@ -1,4 +1,6 @@
 package com.example.ticket.model.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,13 +12,14 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "tickets")
+@ToString(exclude = "tickets")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User extends BaseEntity{
-	
-	@NotBlank(message = "Le nom d'utilisateur est obligatoire")
+public class User extends BaseEntity {
+    
+    @NotBlank(message = "Le nom d'utilisateur est obligatoire")
     @Column(unique = true, nullable = false)
     private String username;
     
@@ -26,6 +29,7 @@ public class User extends BaseEntity{
     private String email;
     
     @OneToMany(mappedBy = "assignedUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore 
     @Builder.Default
     private List<Ticket> tickets = new ArrayList<>();
     
@@ -38,5 +42,4 @@ public class User extends BaseEntity{
         tickets.remove(ticket);
         ticket.setAssignedUser(null);
     }
-
 }
