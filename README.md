@@ -99,19 +99,6 @@ curl -u admin:admin123 http://localhost:8080/api/users
 - Création d'utilisateurs : sans authentification
 - Autres opérations : authentification requise
 
-## Tests
-
-### Lancer tous les tests
-```bash
-mvn test
-```
-
-### Couverture de tests
-Les tests couvrent :
-- Services (UserService, TicketService)
-- Contrôleurs (UserController, TicketController)
-- Gestion des exceptions
-- Contrôle d'accès
 
 ## Exemples de Requêtes
 
