@@ -5,7 +5,7 @@ Application Spring Boot pour la gestion de tickets avec authentification, contr�
 
 ## Technologies Utilisées
 - Java 17
-- Spring Boot 3.2.0
+- Spring Boot 3.5.6
 - Spring Data JPA
 - Spring Security
 - Base de données H2
@@ -38,15 +38,6 @@ mvn clean install
 
 # Lancer l'application
 mvn spring-boot:run
-```
-
-### Avec Gradle
-```bash
-# Compiler le projet
-./gradlew build
-
-# Lancer l'application
-./gradlew bootRun
 ```
 
 ## Accès aux Endpoints
@@ -181,10 +172,6 @@ src/
 ## Auteur
 Développé dans le cadre d'un test technique Java/Spring Boot
 
-
-```
-
----
 
 ## Résumé du Projet
 
